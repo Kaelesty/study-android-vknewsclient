@@ -8,30 +8,19 @@ data class Post(
 )
 
 data class PostContent(
-	var groupName: String = "Kaelesty's Nest",
-	var time: String = "14:25",
-	var groupAvatarId: Int = R.drawable.fox,
-	var text: String = "'Лисы роятся - к дождю' - сказал хозяин лисьей фермы, принимаясь доставать зонт из сумки.",
-	var imageId: Int = R.drawable.foxes,
+	val groupName: String = "Kaelesty's Nest",
+	val time: String = "14:25",
+	val groupAvatarId: Int = R.drawable.fox,
+	val text: String = "'Лисы роятся - к дождю' - сказал хозяин лисьей фермы, принимаясь доставать зонт из сумки.",
+	val imageId: Int = R.drawable.foxes,
 )
 
 data class PostStatistics(
-	var watchers: Int = 775,
-	var reposts: Int = 54,
-	var comments: Int = 101,
-	var likes: Int = 720,
-) {
-	fun copyWithIncrease(type: PostStatType): PostStatistics {
-		return this.apply {
-			when (type) {
-				PostStatType.WATCHERS -> {}
-				PostStatType.REPOSTS -> reposts += 1
-				PostStatType.COMMENTS -> comments += 1
-				PostStatType.LIKES -> likes += 1
-			}
-		}
-	}
-}
+	val watchers: Int = 775,
+	val reposts: Int = 54,
+	val comments: Int = 101,
+	val likes: Int = 720,
+)
 
 enum class PostStatType {
 	WATCHERS, LIKES, COMMENTS, REPOSTS,

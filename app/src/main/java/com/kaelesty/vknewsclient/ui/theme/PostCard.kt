@@ -43,7 +43,9 @@ import com.kaelesty.vknewsclient.domain.entities.PostStatType
 @Composable
 fun PostCard(
 	post: Post,
-	onStatClick: (PostStatType) -> Unit
+	onLike: () -> Unit,
+	onRepost: () -> Unit,
+	onComment: () -> Unit,
 ) {
 	Card(
 		modifier = Modifier
@@ -133,18 +135,18 @@ fun PostCard(
 				StatWithIcon(
 					value = post.statistics.reposts,
 					iconId = R.drawable.share,
-					onClick = { onStatClick(PostStatType.REPOSTS) },
+					onClick = onRepost,
 				)
 				StatWithIcon(
 					value = post.statistics.comments,
 					iconId = R.drawable.comment,
-					onClick = { onStatClick(PostStatType.COMMENTS) },
+					onClick = onComment,
 				)
 				StatWithIcon(
 					value = post.statistics.likes,
 					iconId = R.drawable.heart,
 					hasEndPadding = false,
-					onClick = { onStatClick(PostStatType.LIKES) },
+					onClick = onLike,
 				)
 			}
 		}
@@ -158,6 +160,7 @@ fun StatWithIcon(
 	hasEndPadding: Boolean = true,
 	onClick: () -> Unit = {}
 ) {
+	Log.d("MainViewModel", "RECOMPOSITION STAT")
 	Row(
 		verticalAlignment = Alignment.CenterVertically,
 		modifier = Modifier

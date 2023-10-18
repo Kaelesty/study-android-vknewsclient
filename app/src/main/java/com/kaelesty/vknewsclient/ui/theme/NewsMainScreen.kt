@@ -14,6 +14,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -24,20 +25,16 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.LifecycleOwner
 import com.kaelesty.vknewsclient.MainViewModel
 import com.kaelesty.vknewsclient.domain.entities.Post
+import com.kaelesty.vknewsclient.domain.entities.PostStatType
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NewsMainScreen(
 	viewModel: MainViewModel,
-	activity: Activity
+	lifecycleOwner: LifecycleOwner
 ) {
 	Log.d("MainViewModel", "RECOMPOSITION")
-	val post = remember { mutableStateOf(Post()) } // viewModel.post.observeAsState(initial = Post())
-	viewModel.post.observe(activity as LifecycleOwner) {
-		Log.d("MainViewModel", "!!!!!!!")
-		post.value = it
-		Log.d("MainViewModel", post.value.statistics.likes.toString())
-	}
+	val post by viewModel.post.observeAsState(initial = Post())
 
 	val bottomNavButtons = listOf(
 		Pair("Главная", Icons.Filled.Home),
@@ -64,8 +61,10 @@ fun NewsMainScreen(
 	) {
 		it
 		PostCard(
-			post = post.value,
-			onStatClick = { type -> viewModel.increaseStat(type) }
+			post = post,
+			onLike = { viewModel.increaseStat(PostStatType.LIKES) },
+			onRepost = { viewModel.increaseStat(PostStatType.REPOSTS) },
+			onComment = { viewModel.increaseStat(PostStatType.COMMENTS) },
 		)
 	}
 }
