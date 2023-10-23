@@ -28,10 +28,7 @@ class MainActivity : ComponentActivity() {
 		super.onCreate(savedInstanceState)
 		setContent {
 			VknewsclientTheme {
-				//Box(modifier = Modifier.fillMaxSize().background(Color.Gray))
-				//PostCard(post = getExamplePost())
-				//ScaffoldTest()
-				NewsMainScreen(viewModel, this@MainActivity)
+				NewsMainScreen(viewModel)
 			}
 		}
 	}

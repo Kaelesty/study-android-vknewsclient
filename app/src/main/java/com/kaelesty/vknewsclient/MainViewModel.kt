@@ -11,27 +11,39 @@ import com.kaelesty.vknewsclient.domain.entities.PostStatistics
 
 class MainViewModel : ViewModel() {
 
-	private val _post = MutableLiveData(Post()
-		.copy(
-			PostContent(),
-			PostStatistics().copy(likes = 740)
-		)
-	)
-	val post: LiveData<Post> get() = _post
+	private val _posts: MutableLiveData<List<Post>> = MutableLiveData()
+	val posts: LiveData<List<Post>> get() = _posts
 
-	fun increaseStat(type: PostStatType) {
-		val oldValue = post.value ?: throw IllegalStateException()
-		val oldStatistics = oldValue.statistics
-		val newStatistics = when(type) {
-			PostStatType.REPOSTS -> oldStatistics.copy(reposts = oldStatistics.reposts + 1)
-			PostStatType.LIKES -> oldStatistics.copy(likes = oldStatistics.likes + 1)
-			PostStatType.COMMENTS -> oldStatistics.copy(comments = oldStatistics.comments + 1)
-			else -> oldStatistics
+	init {
+		val list = mutableListOf<Post>()
+		repeat(50) {
+			list.add(Post(it))
 		}
-		_post.value = (post.value ?: throw IllegalStateException()).copy(
-			content = oldValue.content,
-			statistics = newStatistics
-		)
-		Log.d("MainViewModel", "VM ${post.value?.statistics?.likes}")
+		_posts.postValue(list)
+	}
+
+	fun increaseStat(id: Int, type: PostStatType) {
+		val oldPosts = posts.value?.toMutableList() ?: throw IllegalStateException()
+		oldPosts.replaceAll {
+			if (it.id != id) {
+				it
+			}
+			else {
+				val oldStatistics = it.statistics
+				it.copy(statistics = when(type) {
+					PostStatType.REPOSTS -> oldStatistics.copy(reposts = oldStatistics.reposts + 1)
+					PostStatType.LIKES -> oldStatistics.copy(likes = oldStatistics.likes + 1)
+					PostStatType.COMMENTS -> oldStatistics.copy(comments = oldStatistics.comments + 1)
+					else -> oldStatistics
+				})
+			}
+		}
+		_posts.value = oldPosts
+	}
+
+	fun delItem(id: Int) {
+		val oldPosts = posts.value?.toMutableList() ?: throw IllegalStateException()
+		oldPosts.removeIf { it.id == id }
+		_posts.value = oldPosts
 	}
 }

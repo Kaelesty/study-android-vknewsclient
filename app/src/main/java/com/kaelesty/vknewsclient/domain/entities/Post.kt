@@ -3,6 +3,7 @@ package com.kaelesty.vknewsclient.domain.entities
 import com.kaelesty.vknewsclient.R
 
 data class Post(
+	val id: Int,
 	val content: PostContent = PostContent(),
 	val statistics: PostStatistics = PostStatistics()
 )

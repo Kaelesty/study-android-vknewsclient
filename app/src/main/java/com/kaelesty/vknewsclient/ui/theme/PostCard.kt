@@ -50,12 +50,8 @@ fun PostCard(
 	Card(
 		modifier = Modifier
 			.fillMaxWidth()
-			.padding(8.dp)
-			.border(
-				width = 1.dp,
-				color = MaterialTheme.colorScheme.onBackground,
-				shape = RoundedCornerShape(4.dp)
-			),
+			.padding(8.dp),
+		elevation = CardDefaults.elevatedCardElevation(defaultElevation = 4.dp),
 		shape = RoundedCornerShape(8.dp),
 		colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.background)
 	) {
