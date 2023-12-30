@@ -1,13 +1,10 @@
-package com.kaelesty.vknewsclient
+package com.kaelesty.vknewsclient.presentation.main
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.kaelesty.vknewsclient.domain.entities.Post
-import com.kaelesty.vknewsclient.domain.entities.PostContent
 import com.kaelesty.vknewsclient.domain.entities.PostStatType
-import com.kaelesty.vknewsclient.domain.entities.PostStatistics
 
 class MainViewModel : ViewModel() {
 

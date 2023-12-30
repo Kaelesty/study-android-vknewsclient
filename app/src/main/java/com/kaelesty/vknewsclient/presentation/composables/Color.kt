@@ -1,4 +1,4 @@
-package com.kaelesty.vknewsclient.ui.theme
+package com.kaelesty.vknewsclient.presentation.composables
 
 import androidx.compose.ui.graphics.Color
 

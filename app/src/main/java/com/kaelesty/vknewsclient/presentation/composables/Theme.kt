@@ -1,4 +1,4 @@
-package com.kaelesty.vknewsclient.ui.theme
+package com.kaelesty.vknewsclient.presentation.composables
 
 import android.app.Activity
 import android.os.Build
