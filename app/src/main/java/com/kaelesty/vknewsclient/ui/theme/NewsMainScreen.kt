@@ -6,6 +6,7 @@ import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -44,7 +45,6 @@ import com.kaelesty.vknewsclient.MainViewModel
 import com.kaelesty.vknewsclient.domain.entities.Post
 import com.kaelesty.vknewsclient.domain.entities.PostStatType
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
 fun NewsMainScreen(
 	viewModel: MainViewModel,
@@ -74,47 +74,60 @@ fun NewsMainScreen(
 			}
 		}
 	) {
-		LazyColumn(
-			modifier = Modifier.padding(it)
-		) {
-			items(posts, key = { it.id }) {
-				val dismissState = rememberDismissState()
+		when (selectedNavButtonIndex.intValue) {
+			0 -> Posts(it, posts, viewModel)
+			else -> {}
+		}
+	}
+}
 
-				if (dismissState.isDismissed(DismissDirection.EndToStart)) {
-					viewModel.delItem(it.id)
-				}
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
+@Composable
+fun Posts(
+	paddingValues: PaddingValues,
+	posts: List<Post>,
+	viewModel: MainViewModel
+) {
+	LazyColumn(
+		modifier = Modifier.padding(paddingValues)
+	) {
+		items(posts, key = { it.id }) {
+			val dismissState = rememberDismissState()
 
-				SwipeToDismiss(
-					modifier = Modifier.animateItemPlacement(),
-					state = dismissState,
-					background = {
-								 Box(modifier = Modifier
-									 .padding(20.dp)
-									 .background(
-										 androidx.compose.ui.graphics.Color.Red,
-										 RoundedCornerShape(4.dp)
-									 )
-									 .fillMaxSize(),
-									 contentAlignment = Alignment.CenterEnd
-								 ) {
-									 Text(
-										 text = "DELETE",
-										 fontSize = 20.sp,
-										 modifier = Modifier.padding(16.dp)
-									 )
-								 }
-					},
-					dismissContent = {
-						PostCard(
-							post = it,
-							onLike = { viewModel.increaseStat(it.id, PostStatType.LIKES) },
-							onRepost = { viewModel.increaseStat(it.id, PostStatType.REPOSTS) },
-							onComment = { viewModel.increaseStat(it.id, PostStatType.COMMENTS) }
-						)
-					},
-					directions = setOf(DismissDirection.EndToStart)
-				)
+			if (dismissState.isDismissed(DismissDirection.EndToStart)) {
+				viewModel.delItem(it.id)
 			}
+
+			SwipeToDismiss(
+				modifier = Modifier.animateItemPlacement(),
+				state = dismissState,
+				background = {
+					Box(modifier = Modifier
+						.padding(20.dp)
+						.background(
+							androidx.compose.ui.graphics.Color.Red,
+							RoundedCornerShape(4.dp)
+						)
+						.fillMaxSize(),
+						contentAlignment = Alignment.CenterEnd
+					) {
+						Text(
+							text = "DELETE",
+							fontSize = 20.sp,
+							modifier = Modifier.padding(16.dp)
+						)
+					}
+				},
+				dismissContent = {
+					PostCard(
+						post = it,
+						onLike = { viewModel.increaseStat(it.id, PostStatType.LIKES) },
+						onRepost = { viewModel.increaseStat(it.id, PostStatType.REPOSTS) },
+						onComment = { viewModel.increaseStat(it.id, PostStatType.COMMENTS) }
+					)
+				},
+				directions = setOf(DismissDirection.EndToStart)
+			)
 		}
 	}
 }
