@@ -1,5 +1,6 @@
 package com.kaelesty.vknewsclient.presentation.composables
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
@@ -20,18 +21,19 @@ import androidx.navigation.compose.rememberNavController
 import com.kaelesty.vknewsclient.presentation.main.MainViewModel
 import com.kaelesty.vknewsclient.presentation.navigation.AppNavGraph
 import com.kaelesty.vknewsclient.presentation.navigation.NavigationItem
+import com.kaelesty.vknewsclient.presentation.navigation.NavigationState
+import com.kaelesty.vknewsclient.presentation.navigation.Screen
+import com.kaelesty.vknewsclient.presentation.navigation.rememberNavigationState
+import com.kaelesty.vknewsclient.presentation.states.NewsFeedState
 
 @Composable
 fun NewsMainScreen(
 	viewModel: MainViewModel,
 ) {
-	val posts by viewModel.posts.observeAsState(initial = mutableListOf())
+	val state by viewModel.newsFeedState.observeAsState()
 
-	val selectedNavButtonIndex = remember {
-		mutableIntStateOf(0)
-	}
 
-	val navHostController = rememberNavController()
+	val navigationState = rememberNavigationState()
 
 	Scaffold(
 		bottomBar = {
@@ -43,13 +45,13 @@ fun NewsMainScreen(
 					NavigationItem.Favorites
 				)
 
-				val navBackStackEntry by navHostController.currentBackStackEntryAsState()
+				val navBackStackEntry by navigationState.navHostController.currentBackStackEntryAsState()
 
 				items.forEach { item ->
 					NavigationBarItem(
 						selected = navBackStackEntry?.destination?.route == item.screen.route,
 						onClick = {
-								  navHostController.navigate(item.screen.route)
+							navigationState.navigateTo(item.screen.route)
 						},
 						icon = { Icon(item.icon, null) },
 						label = { Text(
@@ -61,13 +63,31 @@ fun NewsMainScreen(
 		}
 	) {
 		AppNavGraph(
-			navHostController = navHostController,
+			navHostController = navigationState.navHostController,
 			newsFeedScreenContent = {
-				NewsFeed(
-					paddingValues = it,
-					posts = posts,
-					viewModel = viewModel
-				)
+				when (state) {
+					is NewsFeedState.Posts -> {
+						NewsFeed(
+							paddingValues = it,
+							posts = (state as NewsFeedState.Posts).posts,
+							viewModel = viewModel
+						)
+					}
+
+					is NewsFeedState.Comments -> {
+						val post = (state as NewsFeedState.Comments)
+						PostComments(
+							post = post.post,
+							postComments = post.comments,
+							onReturn = { viewModel.toPosts() }
+						)
+						BackHandler {
+							viewModel.toPosts()
+						}
+					}
+
+					else -> {}
+				}
 			},
 			favoritesScreenContent = {
 				Favorites(paddingValues = it)

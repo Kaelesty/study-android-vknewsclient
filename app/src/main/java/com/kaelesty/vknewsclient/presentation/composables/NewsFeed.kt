@@ -67,7 +67,7 @@ fun NewsFeed(
 						post = it,
 						onLike = { viewModel.increaseStat(it.id, PostStatType.LIKES) },
 						onRepost = { viewModel.increaseStat(it.id, PostStatType.REPOSTS) },
-						onComment = { viewModel.increaseStat(it.id, PostStatType.COMMENTS) }
+						onComment = { viewModel.toComments(it) }
 					)
 				},
 				directions = setOf(DismissDirection.EndToStart)
