@@ -8,12 +8,10 @@ import com.kaelesty.vknewsclient.domain.entities.PostComment
 import com.kaelesty.vknewsclient.domain.entities.PostStatType
 import com.kaelesty.vknewsclient.presentation.states.NewsFeedState
 
-class MainViewModel : ViewModel() {
+class NewsFeedViewModel : ViewModel() {
 
 	private val _newsFeedState: MutableLiveData<NewsFeedState> = MutableLiveData()
 	val newsFeedState: LiveData<NewsFeedState> get() = _newsFeedState
-
-	var savedPosts: List<Post>? = null
 
 
 	init {
@@ -22,36 +20,6 @@ class MainViewModel : ViewModel() {
 			list.add(Post(it))
 		}
 		_newsFeedState.postValue(NewsFeedState.Posts(list))
-	}
-
-	private fun getPostComments(id: Int): List<PostComment> {
-		return mutableListOf<PostComment>().apply {
-			repeat(30) {
-				add(
-					PostComment(it)
-				)
-			}
-		}
-	}
-
-	fun toComments(post: Post) {
-		if (_newsFeedState.value !is NewsFeedState.Posts) return
-		savedPosts = (_newsFeedState.value as NewsFeedState.Posts).posts
-		_newsFeedState.postValue(
-			NewsFeedState.Comments(
-				post,
-				getPostComments(post.id)
-			)
-		)
-	}
-
-	fun toPosts() {
-		_newsFeedState.postValue(
-			NewsFeedState.Posts(
-				savedPosts?: mutableListOf()
-			)
-		)
-		savedPosts = null
 	}
 
 	fun increaseStat(id: Int, type: PostStatType) {

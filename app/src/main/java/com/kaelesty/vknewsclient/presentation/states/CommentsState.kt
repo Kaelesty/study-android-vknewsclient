@@ -3,9 +3,12 @@ package com.kaelesty.vknewsclient.presentation.states
 import com.kaelesty.vknewsclient.domain.entities.Post
 import com.kaelesty.vknewsclient.domain.entities.PostComment
 
-sealed class NewsFeedState {
+sealed class CommentsState {
 
-	object Initial: NewsFeedState()
+	object Initial: CommentsState()
 
-	data class Posts(val posts: List<Post>): NewsFeedState()
+	data class Comments(
+		val comments: List<PostComment>,
+		val post: Post
+	): CommentsState()
 }

@@ -15,21 +15,52 @@ import androidx.compose.material3.SwipeToDismiss
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDismissState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.kaelesty.vknewsclient.domain.entities.Post
 import com.kaelesty.vknewsclient.domain.entities.PostStatType
-import com.kaelesty.vknewsclient.presentation.main.MainViewModel
+import com.kaelesty.vknewsclient.presentation.main.NewsFeedViewModel
+import com.kaelesty.vknewsclient.presentation.states.NewsFeedState
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
 fun NewsFeed(
 	paddingValues: PaddingValues,
+	onCommentClickListener: (Post) -> Unit
+) {
+
+	val viewModel: NewsFeedViewModel = viewModel()
+
+	val state by viewModel.newsFeedState.observeAsState()
+
+	when (state) {
+		is NewsFeedState.Posts -> {
+			NewsFeedDefault(
+				viewModel,
+				(state as NewsFeedState.Posts).posts,
+				paddingValues,
+				onCommentClickListener
+			)
+		}
+		else -> {
+
+		}
+	}
+}
+
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
+@Composable
+fun NewsFeedDefault(
+	viewModel: NewsFeedViewModel,
 	posts: List<Post>,
-	viewModel: MainViewModel
+	paddingValues: PaddingValues,
+	onCommentClickListener: (Post) -> Unit
 ) {
 	LazyColumn(
 		modifier = Modifier.padding(paddingValues)
@@ -67,7 +98,7 @@ fun NewsFeed(
 						post = it,
 						onLike = { viewModel.increaseStat(it.id, PostStatType.LIKES) },
 						onRepost = { viewModel.increaseStat(it.id, PostStatType.REPOSTS) },
-						onComment = { viewModel.toComments(it) }
+						onComment = { onCommentClickListener(it) }
 					)
 				},
 				directions = setOf(DismissDirection.EndToStart)
