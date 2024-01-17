@@ -41,7 +41,7 @@ fun PostCard(
 	post: Post,
 	onLike: () -> Unit,
 	onRepost: () -> Unit,
-	onComment: () -> Unit,
+	onComment: (() -> Unit)?,
 ) {
 	Card(
 		modifier = Modifier
@@ -129,11 +129,13 @@ fun PostCard(
 					iconId = R.drawable.share,
 					onClick = onRepost,
 				)
-				StatWithIcon(
-					value = post.statistics.comments,
-					iconId = R.drawable.comment,
-					onClick = onComment,
-				)
+				onComment?.let {
+					StatWithIcon(
+						value = post.statistics.comments,
+						iconId = R.drawable.comment,
+						onClick = it,
+					)
+				}
 				StatWithIcon(
 					value = post.statistics.likes,
 					iconId = R.drawable.heart,

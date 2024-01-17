@@ -1,7 +1,9 @@
 package com.kaelesty.vknewsclient.presentation.composables
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
@@ -15,6 +17,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.kaelesty.vknewsclient.domain.entities.Post
 import com.kaelesty.vknewsclient.domain.entities.PostComment
@@ -38,7 +41,8 @@ fun PostComments(
 		is CommentsState.Comments -> {
 			PostCommentsDefault(
 				state as CommentsState.Comments,
-				onReturn
+				onReturn,
+				post
 			)
 		}
 
@@ -46,11 +50,12 @@ fun PostComments(
 	}
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
 fun PostCommentsDefault(
 	commentsState: CommentsState.Comments,
-	onReturn: () -> Unit
+	onReturn: () -> Unit,
+	post: Post
 ) {
 	Column(
 		modifier = Modifier
@@ -58,9 +63,7 @@ fun PostCommentsDefault(
 	) {
 		TopAppBar(
 			title = {
-				Text(
-					text = "Comments for FeedPost Id:${commentsState.post.id}"
-				)
+					Text(text = "Comments")
 			},
 			navigationIcon = {
 				IconButton(onClick = { onReturn() }) {
@@ -73,7 +76,15 @@ fun PostCommentsDefault(
 		)
 
 		LazyColumn {
+			stickyHeader {
+				PostCard(
+					post = post,
+					onLike = { /*TODO*/ },
+					onRepost = { /*TODO*/ },
+					onComment = null
 
+				)
+			}
 			items(
 				commentsState.comments,
 				key = { it.id },

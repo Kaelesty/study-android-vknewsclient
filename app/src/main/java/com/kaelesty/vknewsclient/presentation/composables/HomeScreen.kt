@@ -1,5 +1,6 @@
 package com.kaelesty.vknewsclient.presentation.composables
 
+import android.util.Log
 import androidx.activity.compose.BackHandler
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Icon
@@ -10,9 +11,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.res.stringResource
+import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.kaelesty.vknewsclient.presentation.navigation.AppNavGraph
 import com.kaelesty.vknewsclient.presentation.navigation.NavigationItem
+import com.kaelesty.vknewsclient.presentation.navigation.Screen
 import com.kaelesty.vknewsclient.presentation.navigation.rememberNavigationState
 import com.kaelesty.vknewsclient.presentation.states.NewsFeedState
 
@@ -26,23 +29,29 @@ fun HomeScreen() {
 			BottomAppBar {
 
 				val items = listOf(
-					NavigationItem.NewsFeed,
+					NavigationItem.Posts,
 					NavigationItem.Profile,
 					NavigationItem.Favorites
 				)
 
 				val navBackStackEntry by navigationState.navHostController.currentBackStackEntryAsState()
-
 				items.forEach { item ->
+					val selected = navBackStackEntry?.destination?.hierarchy?.any {
+						it.route == item.screen.route
+					} ?: false
 					NavigationBarItem(
-						selected = navBackStackEntry?.destination?.route == item.screen.route,
+						selected = selected,
 						onClick = {
-							navigationState.navigateTo(item.screen.route)
+							if (!selected) {
+								navigationState.navigateTo(item.screen.route)
+							}
 						},
 						icon = { Icon(item.icon, null) },
-						label = { Text(
-							stringResource(id = item.titleResId)
-						) }
+						label = {
+							Text(
+								stringResource(id = item.titleResId)
+							)
+						}
 					)
 				}
 			}
@@ -53,7 +62,18 @@ fun HomeScreen() {
 			newsFeedScreenContent = {
 				NewsFeed(
 					paddingValues = it,
-					onCommentClickListener = {}
+					onCommentClickListener = {
+						Log.d("DBG", "${it.id}")
+						navigationState.navigateToComments(it)
+					}
+				)
+			},
+			commentsScreenContent = { post ->
+				PostComments(
+					onReturn = {
+						navigationState.navHostController.popBackStack()
+					},
+					post = post
 				)
 			},
 			favoritesScreenContent = {

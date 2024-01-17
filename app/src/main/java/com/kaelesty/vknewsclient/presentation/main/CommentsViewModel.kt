@@ -26,7 +26,7 @@ class CommentsViewModel(
 			comments = mutableListOf<PostComment>().apply {
 				repeat(10) {
 					add(
-						PostComment(0)
+						PostComment(it)
 					)
 				}
 			},
