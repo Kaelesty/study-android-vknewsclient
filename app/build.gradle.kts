@@ -18,6 +18,13 @@ android {
 		vectorDrawables {
 			useSupportLibrary = true
 		}
+
+		addManifestPlaceholders(mapOf(
+			"VKIDRedirectHost" to "vk.com", // обычно vk.com
+			"VKIDRedirectScheme" to "vk51834424", // обычно vk{ID приложения}
+			"VKIDClientID" to "51834424",
+			"VKIDClientSecret" to "N2AUlvbP2VxcR8YTMaOE"
+		))
 	}
 
 	buildTypes {
@@ -71,4 +78,6 @@ dependencies {
 	implementation("androidx.navigation:navigation-compose:2.7.6")
 	implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.2")
 	implementation("com.google.code.gson:gson:2.10.1")
+	implementation("com.vk:android-sdk-core:4.1.0")
+	implementation("com.vk:android-sdk-api:4.1.0")
 }

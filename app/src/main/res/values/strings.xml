@@ -1,6 +1,10 @@
 <resources>
     <string name="app_name">vknewsclient</string>
+
+    <integer name="com_vk_sdk_AppId">51834424</integer>
+
     <string name="navitem_title_newsfeed">Главная</string>
     <string name="navitem_title_favorites">Избранное</string>
     <string name="navitem_title_profile">Профиль</string>
+    <string name="login">Login</string>
 </resources>
