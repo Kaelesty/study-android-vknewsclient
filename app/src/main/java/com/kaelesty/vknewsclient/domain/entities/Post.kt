@@ -3,7 +3,7 @@ package com.kaelesty.vknewsclient.domain.entities
 import com.kaelesty.vknewsclient.R
 
 data class Post(
-	val id: Int,
+	val id: String,
 	val content: PostContent = PostContent(),
 	val statistics: PostStatistics = PostStatistics()
 )
@@ -11,9 +11,9 @@ data class Post(
 data class PostContent(
 	val groupName: String = "Kaelesty's Nest",
 	val time: String = "14:25",
-	val groupAvatarId: Int = R.drawable.fox,
+	val groupAvatarUrl: String = "https://media.sproutsocial.com/uploads/2017/02/10x-featured-social-media-image-size.png",
 	val text: String = "'Лисы роятся - к дождю' - сказал хозяин лисьей фермы, принимаясь доставать зонт из сумки.",
-	val imageId: Int = R.drawable.foxes,
+	val imageUrl: String = "https://media.sproutsocial.com/uploads/2017/02/10x-featured-social-media-image-size.png",
 )
 
 data class PostStatistics(

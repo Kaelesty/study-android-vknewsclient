@@ -5,9 +5,11 @@ import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
+import androidx.compose.material3.Text
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.kaelesty.vknewsclient.presentation.composables.HomeScreen
@@ -22,6 +24,7 @@ class MainActivity : ComponentActivity() {
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
+
 		setContent {
 			VknewsclientTheme {
 
@@ -35,6 +38,7 @@ class MainActivity : ComponentActivity() {
 					}
 				)
 
+
 				when (authState.value) {
 					is AuthState.Initial -> {
 
@@ -46,7 +50,7 @@ class MainActivity : ComponentActivity() {
 					is AuthState.Unathorized -> {
 						LoginScreen(
 							loginCallback = {
-								launcher.launch(arrayListOf(VKScope.WALL))
+								launcher.launch(arrayListOf(VKScope.WALL, VKScope.FRIENDS))
 							}
 						)
 					}

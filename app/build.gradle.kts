@@ -18,13 +18,6 @@ android {
 		vectorDrawables {
 			useSupportLibrary = true
 		}
-
-		addManifestPlaceholders(mapOf(
-			"VKIDRedirectHost" to "vk.com", // обычно vk.com
-			"VKIDRedirectScheme" to "vk51834424", // обычно vk{ID приложения}
-			"VKIDClientID" to "51834424",
-			"VKIDClientSecret" to "N2AUlvbP2VxcR8YTMaOE"
-		))
 	}
 
 	buildTypes {
@@ -80,4 +73,12 @@ dependencies {
 	implementation("com.google.code.gson:gson:2.10.1")
 	implementation("com.vk:android-sdk-core:4.1.0")
 	implementation("com.vk:android-sdk-api:4.1.0")
+
+	implementation("com.squareup.retrofit2:retrofit:2.9.0")
+	implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+	implementation("com.google.code.gson:gson:2.10.1")
+
+	implementation("io.coil-kt:coil:2.5.0")
+
+	implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
 }

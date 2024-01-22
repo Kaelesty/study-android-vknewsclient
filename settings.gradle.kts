@@ -3,9 +3,6 @@ pluginManagement {
 		google()
 		mavenCentral()
 		gradlePluginPortal()
-		maven {
-			url = java.net.URI.create("https://artifactory-external.vkpartner.ru/artifactory/vkid-sdk-andorid/")
-		}
 	}
 }
 dependencyResolutionManagement {
