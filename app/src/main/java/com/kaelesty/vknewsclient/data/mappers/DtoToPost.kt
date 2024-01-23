@@ -4,6 +4,7 @@ import com.kaelesty.vknewsclient.data.dtos.NewsFeedContentDto
 import com.kaelesty.vknewsclient.domain.entities.Post
 import com.kaelesty.vknewsclient.domain.entities.PostContent
 import com.kaelesty.vknewsclient.domain.entities.PostStatistics
+import java.text.SimpleDateFormat
 import kotlin.math.absoluteValue
 
 
@@ -20,15 +21,15 @@ fun NewsFeedContentDto.toPosts(): List<Post> {
 				content = PostContent(
 					groupName = groupDto.name,
 					groupAvatarUrl = groupDto.photoUrl,
-					time = postDto.date.toString(),
+					time = SimpleDateFormat("HH:mm").format(postDto.date),
 					imageUrl = postDto.attachments?.firstOrNull()?.photo?.photoUrls?.lastOrNull()?.url ?: "",
-					text = postDto.text
+					text = postDto.text ?: ""
 				),
 				statistics = PostStatistics(
-					watchers = postDto.views.count,
-					likes = postDto.likes.count,
-					comments = postDto.comments.count,
-					reposts = postDto.reposts.count
+					watchers = postDto.views?.count ?: continue,
+					likes = postDto.likes?.count ?: continue,
+					comments = postDto.comments?.count ?: continue,
+					reposts = postDto.reposts?.count ?: continue
 				)
 			)
 		)

@@ -7,9 +7,10 @@ import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Query
 
-interface AccessApiService {
-	@GET("newsfeed.get?v=5.199")
+interface ApiService {
+	@GET("newsfeed.get")
 	suspend fun getPosts(
 		@Query("access_token") token: String,
+		@Query("v") apiVersion: String = "5.199"
 	): Response<NewsFeedResponseDto>
 }

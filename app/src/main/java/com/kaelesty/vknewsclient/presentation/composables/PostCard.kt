@@ -33,6 +33,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
 import com.kaelesty.vknewsclient.R
 import com.kaelesty.vknewsclient.domain.entities.Post
 
@@ -60,8 +61,8 @@ fun PostCard(
 				horizontalArrangement = Arrangement.SpaceEvenly,
 				verticalAlignment = Alignment.CenterVertically
 			) {
-				Image(
-					painterResource(id = post.content.groupAvatarId),
+				AsyncImage(
+					model = post.content.groupAvatarUrl,
 					contentDescription = "Group Avatar",
 					modifier = Modifier
 						.size(50.dp)
@@ -105,8 +106,8 @@ fun PostCard(
 					.fillMaxWidth()
 					.padding(horizontal = 8.dp),
 			)
-			Image(
-				painter = painterResource(id = post.content.imageId),
+			AsyncImage(
+				model = post.content.imageUrl,
 				contentDescription = "Post image",
 				modifier = Modifier
 					.fillMaxWidth()

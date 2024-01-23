@@ -8,4 +8,6 @@ sealed class NewsFeedState {
 	object Initial: NewsFeedState()
 
 	data class Posts(val posts: List<Post>): NewsFeedState()
+
+	object Loading : NewsFeedState()
 }

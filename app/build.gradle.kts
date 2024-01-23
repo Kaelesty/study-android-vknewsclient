@@ -74,11 +74,15 @@ dependencies {
 	implementation("com.vk:android-sdk-core:4.1.0")
 	implementation("com.vk:android-sdk-api:4.1.0")
 
+	implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.0-RC2")
+	implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0")
+
 	implementation("com.squareup.retrofit2:retrofit:2.9.0")
 	implementation("com.squareup.retrofit2:converter-gson:2.9.0")
 	implementation("com.google.code.gson:gson:2.10.1")
 
 	implementation("io.coil-kt:coil:2.5.0")
+	implementation("io.coil-kt:coil-compose:2.5.0")
 
 	implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
 }

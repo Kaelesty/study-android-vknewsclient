@@ -76,7 +76,7 @@ fun PostCommentsDefault(
 		)
 
 		LazyColumn {
-			stickyHeader {
+			item {
 				PostCard(
 					post = post,
 					onLike = { /*TODO*/ },

@@ -16,10 +16,10 @@ object ApiFactory {
 		})
 		.build()
 
-	val apiService: AccessApiService = Retrofit.Builder()
+	val apiService: ApiService = Retrofit.Builder()
 		.baseUrl(SERVER_URL)
 		.addConverterFactory(GsonConverterFactory.create())
 		.client(okHttpClient)
 		.build()
-		.create(AccessApiService::class.java)
+		.create(ApiService::class.java)
 }
