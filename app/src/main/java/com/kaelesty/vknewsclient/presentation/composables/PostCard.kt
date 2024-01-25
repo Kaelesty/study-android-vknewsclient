@@ -36,6 +36,7 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.kaelesty.vknewsclient.R
 import com.kaelesty.vknewsclient.domain.entities.Post
+import com.kaelesty.vknewsclient.presentation.tools.formatStat
 
 @Composable
 fun PostCard(
@@ -142,6 +143,8 @@ fun PostCard(
 					iconId = R.drawable.heart,
 					hasEndPadding = false,
 					onClick = onLike,
+					darkIconId = R.drawable.heart_dark,
+					isIconDark = post.statistics.isLiked
 				)
 			}
 		}
@@ -152,8 +155,10 @@ fun PostCard(
 fun StatWithIcon(
 	value: Int,
 	iconId: Int,
+	darkIconId: Int? = null,
 	hasEndPadding: Boolean = true,
-	onClick: () -> Unit = {}
+	onClick: () -> Unit = {},
+	isIconDark: Boolean = false
 ) {
 	Log.d("MainViewModel", "RECOMPOSITION STAT")
 	Row(
@@ -163,9 +168,13 @@ fun StatWithIcon(
 			.clickable { onClick() }
 
 	) {
-		Text(value.toString())
+
+		val stringValue = formatStat(value)
+
+		Text(stringValue)
+		val currentIconId = if (isIconDark && darkIconId != null) darkIconId else iconId
 		Icon(
-			painterResource(id = iconId),
+			painterResource(id = currentIconId),
 			contentDescription = null,
 			tint = MaterialTheme.colorScheme.onBackground,
 			modifier = Modifier

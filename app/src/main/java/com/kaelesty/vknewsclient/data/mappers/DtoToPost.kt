@@ -5,6 +5,7 @@ import com.kaelesty.vknewsclient.domain.entities.Post
 import com.kaelesty.vknewsclient.domain.entities.PostContent
 import com.kaelesty.vknewsclient.domain.entities.PostStatistics
 import java.text.SimpleDateFormat
+import java.util.Locale
 import kotlin.math.absoluteValue
 
 
@@ -21,7 +22,7 @@ fun NewsFeedContentDto.toPosts(): List<Post> {
 				content = PostContent(
 					groupName = groupDto.name,
 					groupAvatarUrl = groupDto.photoUrl,
-					time = SimpleDateFormat("HH:mm").format(postDto.date),
+					time = SimpleDateFormat("d MMMM yyyy, HH:mm", Locale.getDefault()).format(postDto.date * 1000),
 					imageUrl = postDto.attachments?.firstOrNull()?.photo?.photoUrls?.lastOrNull()?.url ?: "",
 					text = postDto.text ?: ""
 				),
@@ -29,7 +30,8 @@ fun NewsFeedContentDto.toPosts(): List<Post> {
 					watchers = postDto.views?.count ?: continue,
 					likes = postDto.likes?.count ?: continue,
 					comments = postDto.comments?.count ?: continue,
-					reposts = postDto.reposts?.count ?: continue
+					reposts = postDto.reposts?.count ?: continue,
+					isLiked = postDto.likes.isLiked == 1
 				)
 			)
 		)

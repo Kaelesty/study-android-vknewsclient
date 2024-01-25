@@ -21,6 +21,7 @@ data class PostStatistics(
 	val reposts: Int = 54,
 	val comments: Int = 101,
 	val likes: Int = 720,
+	val isLiked: Boolean = false,
 )
 
 enum class PostStatType {
