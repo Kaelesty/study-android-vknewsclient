@@ -32,4 +32,48 @@ class NewsFeedRepo(
 
 		return null
 	}
+
+	override suspend fun likePost(post: Post): Int? {
+
+		token?.let {
+			val response = apiService.like(
+				token = it,
+				itemId = post.id,
+				ownerId = post.ownerId.toLong(),
+			)
+
+			return when (response.code()) {
+				200 -> {
+					response.body()?.content?.likes
+				}
+				else -> {
+					null
+				}
+			}
+		}
+
+		return null
+	}
+
+	override suspend fun unlikePost(post: Post): Int? {
+
+		token?.let {
+			val response = apiService.unlike(
+				token = it,
+				itemId = post.id,
+				ownerId = post.ownerId.toLong(),
+			)
+
+			return when (response.code()) {
+				200 -> {
+					response.body()?.content?.likes
+				}
+				else -> {
+					null
+				}
+			}
+		}
+
+		return null
+	}
 }

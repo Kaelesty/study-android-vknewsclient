@@ -4,8 +4,9 @@ import com.kaelesty.vknewsclient.R
 
 data class Post(
 	val id: String,
+	val ownerId: String,
 	val content: PostContent = PostContent(),
-	val statistics: PostStatistics = PostStatistics()
+	val statistics: PostStatistics = PostStatistics(likes = 777)
 )
 
 data class PostContent(
@@ -20,7 +21,7 @@ data class PostStatistics(
 	val watchers: Int = 775,
 	val reposts: Int = 54,
 	val comments: Int = 101,
-	val likes: Int = 720,
+	val likes: Int,
 	val isLiked: Boolean = false,
 )
 

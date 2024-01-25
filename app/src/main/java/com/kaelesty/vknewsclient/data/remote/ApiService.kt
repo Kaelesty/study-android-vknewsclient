@@ -1,5 +1,6 @@
 package com.kaelesty.vknewsclient.data.remote
 
+import com.kaelesty.vknewsclient.data.dtos.LikeResponseDto
 import com.kaelesty.vknewsclient.data.dtos.NewsFeedResponseDto
 import retrofit2.Response
 import retrofit2.http.Body
@@ -20,22 +21,24 @@ interface ApiService {
 		@Query("access_token") token: String,
 		@Query("v") apiVersion: String = "5.199",
 		@Query("type") type: String = "post",
-		@Query("item_id") itemId: Int,
-	)
+		@Query("item_id") itemId: String,
+		@Query("owner_id") ownerId: Long,
+	): Response<LikeResponseDto>
 
 	@GET("likes.delete")
 	suspend fun unlike(
 		@Query("access_token") token: String,
 		@Query("v") apiVersion: String = "5.199",
 		@Query("type") type: String = "post",
-		@Query("item_id") itemId: Int,
-	)
+		@Query("item_id") itemId: String,
+		@Query("owner_id") ownerId: Long,
+	): Response<LikeResponseDto>
 
 	@GET("likes.isLiked")
 	suspend fun isLiked(
 		@Query("access_token") token: String,
 		@Query("v") apiVersion: String = "5.199",
 		@Query("type") type: String = "post",
-		@Query("item_id") itemId: Int,
+		@Query("item_id") itemId: Long,
 	)
 }

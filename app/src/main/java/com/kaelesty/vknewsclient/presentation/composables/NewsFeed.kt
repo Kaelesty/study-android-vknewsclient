@@ -53,16 +53,16 @@ fun NewsFeed(
 				onCommentClickListener
 			)
 		}
+
 		is NewsFeedState.Loading -> {
-			Box(modifier = Modifier
-				.fillMaxSize()
-				,
+			Box(
+				modifier = Modifier
+					.fillMaxSize(),
 				contentAlignment = Alignment.Center
 			) {
 				Card(
 					modifier = Modifier
-						.padding(8.dp)
-					,
+						.padding(8.dp),
 					elevation = CardDefaults.elevatedCardElevation(defaultElevation = 4.dp),
 					shape = RoundedCornerShape(8.dp),
 					colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.background)
@@ -75,6 +75,7 @@ fun NewsFeed(
 				}
 			}
 		}
+
 		else -> {
 
 		}
@@ -123,7 +124,13 @@ fun NewsFeedDefault(
 				dismissContent = {
 					PostCard(
 						post = it,
-						onLike = { viewModel.increaseStat(it.id, PostStatType.LIKES) },
+						onLike = {
+							if (it.statistics.isLiked) {
+								viewModel.unlike(it)
+							} else {
+								viewModel.like(it)
+							}
+						},
 						onRepost = { viewModel.increaseStat(it.id, PostStatType.REPOSTS) },
 						onComment = { onCommentClickListener(it) }
 					)

@@ -26,6 +26,7 @@ fun NewsFeedContentDto.toPosts(): List<Post> {
 					imageUrl = postDto.attachments?.firstOrNull()?.photo?.photoUrls?.lastOrNull()?.url ?: "",
 					text = postDto.text ?: ""
 				),
+				ownerId = postDto.ownerId,
 				statistics = PostStatistics(
 					watchers = postDto.views?.count ?: continue,
 					likes = postDto.likes?.count ?: continue,
